@@ -90,7 +90,7 @@ class API(Utils):
         return APIResponse(**requests.get(cls.build_url(action=APIAction.status, task_id=task_id)).json())
 
     @classmethod
-    def task_copy(cls, task_id: int, name: None, translate_chart: bool) -> APIResponse:
+    def task_copy(cls, task_id: int, name: None, translate_chart: bool = None) -> APIResponse:
         return APIResponse(**requests.get(cls.build_url(action=APIAction.delete, task_id=task_id, name=name,
                                                         translate_chart='true' if translate_chart else 'false')).json())
 
