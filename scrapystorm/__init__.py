@@ -4,7 +4,7 @@ import requests
 from pydantic import BaseModel
 from typing import List, Optional, Union
 
-__all__ = ['API']
+__all__ = ['API', 'APIConfig', 'APIAction', 'APIResponse', 'Task']
 
 
 @unique
