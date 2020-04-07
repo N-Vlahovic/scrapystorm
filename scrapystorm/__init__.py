@@ -76,7 +76,7 @@ class API(Utils):
         return APIResponse(**response.json())
 
     @classmethod
-    def get_task(cls, task_id: int, timeout: int = 5) -> Task:
+    def get_task(cls, task_id: int, timeout: int = 5) -> Union[None, Task]:
         """
         Get Task
         :param task_id: The ID of the task.
@@ -89,7 +89,7 @@ class API(Utils):
                 return task
 
     @classmethod
-    def get_task_by_name(cls, task_name: str, timeout: int = 5) -> Task:
+    def get_task_by_name(cls, task_name: str, timeout: int = 5) -> Union[None, Task]:
         """
         Get Task
         :param task_name: The name of the task.
@@ -130,6 +130,13 @@ class API(Utils):
 
     @classmethod
     def task_copy(cls, task_id: int, name: None, translate_chart: bool = None) -> APIResponse:
+        """
+        Copy Task
+        :param task_id: The ID of the task.
+        :param name: Copy the crawler task name. Default is original file name + “-copy”. Optional.
+        :param translate_chart: Whether the copied crawler task changes to advanced mode. Default is false. Optional.
+        :return: An APIResponse instance.
+        """
         return APIResponse(**requests.get(cls.build_url(action=APIAction.delete, task_id=task_id, name=name,
                                                         translate_chart='true' if translate_chart else 'false')).json())
 
