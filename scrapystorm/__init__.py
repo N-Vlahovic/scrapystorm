@@ -63,10 +63,36 @@ class API(Utils):
         return APIResponse(**response.json())
 
     @classmethod
+    def get_task(cls, task_id: int, timeout: int = 5) -> Task:
+        """
+        Get Task
+        :param task_id: The ID of the task.
+        :param timeout: Number of seconds to wait for a response.
+        :return:
+        """
+        tasks = cls.get_tasks(timeout=timeout).list
+        for task in tasks:
+            if task.task_id == task_id:
+                return task
+
+    @classmethod
+    def get_task_by_name(cls, task_name: str, timeout: int = 5) -> Task:
+        """
+        Get Task
+        :param task_name: The name of the task.
+        :param timeout: Number of seconds to wait for a response.
+        :return:
+        """
+        tasks = cls.get_tasks(timeout=timeout).list
+        for task in tasks:
+            if task.name == task_name:
+                return task
+
+    @classmethod
     def task_start(cls, task_id: int) -> APIResponse:
         """
         Start Task
-        :param task_id: The of the task.
+        :param task_id: The ID of the task.
         :return: An APIResponse instance.
         """
         return APIResponse(**requests.get(cls.build_url(action=APIAction.start, task_id=task_id)).json())
@@ -75,7 +101,7 @@ class API(Utils):
     def task_stop(cls, task_id: int) -> APIResponse:
         """
         Stop Task
-        :param task_id: The of the task.
+        :param task_id: The ID of the task.
         :return: An APIResponse instance.
         """
         return APIResponse(**requests.get(cls.build_url(action=APIAction.stop, task_id=task_id)).json())
@@ -84,7 +110,7 @@ class API(Utils):
     def task_status(cls, task_id: int) -> APIResponse:
         """
         Get Task Status
-        :param task_id: The of the task.
+        :param task_id: The ID of the task.
         :return: An APIResponse instance containing the task's status.
         """
         return APIResponse(**requests.get(cls.build_url(action=APIAction.status, task_id=task_id)).json())
@@ -98,7 +124,7 @@ class API(Utils):
     def task_delete(cls, task_id: int) -> APIResponse:
         """
         Delete Task
-        :param task_id: The of the task.
+        :param task_id: The ID of the task.
         :return: An APIResponse instance.
         """
         return APIResponse(**requests.get(cls.build_url(action=APIAction.delete, task_id=task_id)).json())
@@ -107,7 +133,7 @@ class API(Utils):
     def task_clear_data(cls, task_id: int) -> APIResponse:
         """
         Clear Task Data
-        :param task_id: The of the task.
+        :param task_id: The ID of the task.
         :return: An APIResponse instance.
         """
         return APIResponse(**requests.get(cls.build_url(action=APIAction.data_clear, task_id=task_id)).json())
