@@ -1,3 +1,4 @@
+from __future__ import annotations
 from enum import Enum, unique
 import requests
 from pydantic import BaseModel
@@ -17,6 +18,18 @@ class Task(BaseModel):
     time_create: Union[float, int]
     task_id: int
     type: TaskType
+
+    def start(self) -> APIResponse:
+        return API.task_start(task_id=self.task_id)
+
+    def stop(self) -> APIResponse:
+        return API.task_stop(task_id=self.task_id)
+
+    def status(self) -> APIResponse:
+        return API.task_status(task_id=self.task_id)
+
+    def clear_data(self) -> APIResponse:
+        return API.task_clear_data(task_id=self.task_id)
 
 
 class APIConfig:
